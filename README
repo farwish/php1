@@ -1,3 +1,11 @@
+1.  
+Add `make clean` command.  
+Use `$@` instead of the target, `$^` instead of the target's dependency.  
+Define `PROJ=php1/` and use it.  
+
+----
+
+
 PHP Tools - Personal Home Page Tools
 ====================================
  Copyright (C) 1995 Rasmus Lerdorf

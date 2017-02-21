@@ -26,10 +26,12 @@ CC =	gcc
 #CFLAGS =	-g $(OPTIONS) 
 #CC =	cc
 
-TSOURCE =	php/phpf.c php/phpl.c php/phplview.c php/phplmon.c php/common.c \
-			php/error.c php/post.c php/wm.c php/common.h php/config.h \
-			php/subvar.c php/html_common.h php/post.h php/version.h php/wm.h \
-			php/Makefile php/README php/License
+PROJ	= 	php1/
+
+TSOURCE =	$(PROJ)phpf.c $(PROJ)phpl.c $(PROJ)phplview.c $(PROJ)phplmon.c $(PROJ)common.c \
+			$(PROJ)error.c $(PROJ)post.c $(PROJ)wm.c $(PROJ)common.h $(PROJ)config.h \
+			$(PROJ)subvar.c $(PROJ)html_common.h $(PROJ)post.h $(PROJ)version.h $(PROJ)wm.h \
+			$(PROJ)Makefile $(PROJ)README $(PROJ)License
 
 SOURCE =	phpf.c phpl.c phplview.c phplmon.c common.c \
 			error.c post.c wm.c common.h config.h \
@@ -39,19 +41,19 @@ SOURCE =	phpf.c phpl.c phplview.c phplmon.c common.c \
 ALL: phpl.cgi phplmon.cgi phplview.cgi phpf.cgi
 
 phpl.cgi:	phpl.o wm.o common.o post.o subvar.o error.o
-		$(CC) -o phpl.cgi phpl.o wm.o common.o post.o error.o subvar.o
+		$(CC) -o $@ $^
 
 phplmon.cgi:	phplmon.o common.o
-		$(CC) -o phplmon.cgi phplmon.o common.o
+		$(CC) -o $@ $^
 
 phplview.cgi:	phplview.o common.o post.o error.o
-		$(CC) -o phplview.cgi phplview.o common.o post.o error.o
+		$(CC) -o $@ $^
 
 phpf.cgi:	phpf.o post.o error.o
-		$(CC) -o phpf.cgi phpf.o post.o error.o common.o
+		$(CC) -o $@ $^ common.o
 
 php.tar:	$(SOURCE)
-		cd ..;tar -cf php/php.tar $(TSOURCE);cd php
+		cd ..;tar -cf $(PROJ)php.tar $(TSOURCE);cd $(PROJ)
 
 error.o:	error.c html_common.h
 phpl.o:		phpl.c config.h
@@ -62,3 +64,7 @@ common.o:	common.c version.h common.h
 post.o:		post.c html_common.h
 phpf.o:		phpf.c html_common.h common.h
 subvar.o:	subvar.c
+
+clean:
+	rm -f *.o *.cgi *.tar
+
